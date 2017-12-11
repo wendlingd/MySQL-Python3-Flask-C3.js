@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Chart info: http://c3js.org/gettingstarted.html. -->
+
+<head>
+    <script type="text/javascript" src="YourPath/js/d3.v3.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="YourPath/js/c3.min.js"></script>
+</head>
+
+<body>
+
+<!-- Time series line chart -->
+<div class="panel panel-default">
+
+<h2>Page views vs. site searches</h2>
+
+
+<div id="chartUsage"></div>
+
+
+<script>
+var chart = c3.generate({
+    size: {
+        width: 300,
+        height: 220
+    },
+    margin: {
+        right:20,
+    },
+    padding: {
+        right:50,
+    },
+    bindto: '#chartUsage',
+    data: {
+        x: 'ReportMonth',
+        xFormat: '%Y-%m',
+        url: "chartUsage/{{MicrositeData.GroupCode[0]}}",
+        type: 'bar',
+        labels: false // Good option but difficult for small charts
+    },
+    bar: {
+        width: 10,
+    },
+    axis: {
+        x: {
+            type: 'timeseries',
+            tick: {
+                format: '%Y-%m',
+                rotate: 45,
+                fit: false,
+                min: 0
+            }
+        },
+        y: {
+            tick: {
+                format: d3.format(","),
+            }
+        }
+    }
+});
+</script>
+
+
+    <table class="table table-striped table-condensed" style="margin-top:1.5em;">
+    <thead>
+        <tr>
+          <th scope="col" style="font-size:85%;">Report Month</th>
+          <th scope="col" style="text-align:right;font-size:85%;">Page Views</th>
+          <th scope="col" style="text-align:right;font-size:85%;">Site Searches</th>
+        </tr>
+  </thead>
+<tbody>
+  {% for rownum, row in TablePVvsSearch.iterrows() %}
+    <tr>
+      <td style="font-size:80%;">{{ row.ReportMonth}}</td>
+      <td style="text-align:right;font-size:80%;">{{ row.UniquePVsGr }}</td>
+      <td style="text-align:right;font-size:80%;">{{ row.UniqueSearchesGr}}</td>
+    </tr>
+  {% endfor %}
+</tbody>   
+</table>
+
+</div><!-- end rollup -->
+
+</div><!--End of panel-->
+
+</body>
+</html>
